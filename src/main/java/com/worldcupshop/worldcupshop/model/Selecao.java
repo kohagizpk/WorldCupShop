@@ -6,19 +6,19 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-public class Categoria {
+public class Selecao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String nome;
-    private String descricao;
+    private String pais;
 
-
-    public Categoria() {
+    public Selecao() {
     }
-    
+
+    // Getters e Setters
     public Long getId() {
         return id;
     }
@@ -35,11 +35,11 @@ public class Categoria {
         this.nome = nome;
     }
 
-    public String getDescricao() {
-        return descricao;
+    public String getPais() {
+        return pais;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setPais(String pais) {
+        this.pais = pais;
     }
 }
