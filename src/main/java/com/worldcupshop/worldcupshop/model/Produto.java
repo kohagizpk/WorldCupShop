@@ -60,7 +60,7 @@ public class Produto {
         return preco;
     }
 
-    public void setPreco(BigDecimal preco) {
+    public void setPreco(BigDecimal preco) { // BigDecimal é melhor que double ou float para lidar com valores decimais, pode ser mais preciso.
         this.preco = preco;
     }
 
