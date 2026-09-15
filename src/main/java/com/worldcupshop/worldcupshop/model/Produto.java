@@ -19,19 +19,20 @@ public class Produto {
     private String descricao;
     private BigDecimal preco;
     private String imagem;
-    private Integer estoque;
+    private Integer estoque = 0;
 
-    @ManyToOne
-    @JoinColumn(name = "categoria_id")
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "categoria_id", nullable = false)
     private Categoria categoria;
 
-    @ManyToOne
-    @JoinColumn(name = "selecao_id")
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "selecao_id", nullable = false)
     private Selecao selecao;
 
     public Produto() {
     }
 
+    
     public Long getId() {
         return id;
     }
@@ -60,7 +61,7 @@ public class Produto {
         return preco;
     }
 
-    public void setPreco(BigDecimal preco) { // BigDecimal é melhor que double ou float para lidar com valores decimais, pode ser mais preciso.
+    public void setPreco(BigDecimal preco) {
         this.preco = preco;
     }
 

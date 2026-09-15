@@ -1,22 +1,22 @@
 package com.worldcupshop.worldcupshop.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 
 @Entity
-public class Categoria {
+public class Usuario {
+
+    private String nome;
+    private Integer senha;
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String nome;
-    private String descricao;
-
-
-    public Categoria() {
+    public Usuario() {
     }
     
     
@@ -24,9 +24,10 @@ public class Categoria {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId() {
         this.id = id;
     }
+
 
     public String getNome() {
         return nome;
@@ -36,11 +37,12 @@ public class Categoria {
         this.nome = nome;
     }
 
-    public String getDescricao() {
-        return descricao;
-    }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public Integer getSenha() {
+        return senha;
+    }
+    
+    private void setSenha(Integer senha) {
+        this.senha = senha;
     }
 }
