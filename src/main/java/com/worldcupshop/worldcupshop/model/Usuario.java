@@ -4,27 +4,31 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.EnumType;
 
 @Entity
 public class Usuario {
-
-    private String nome;
-    private Integer senha;
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String nome;
+    private String senha;
+
+    @Enumerated(EnumType.STRING)
+    private TipoUsuario tipo;
+
     public Usuario() {
     }
-    
-    
+
+
     public Long getId() {
         return id;
     }
 
-    public void setId() {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -38,11 +42,20 @@ public class Usuario {
     }
 
 
-    public Integer getSenha() {
+    public String getSenha() {
         return senha;
     }
-    
-    private void setSenha(Integer senha) {
+
+    private void setSenha(String senha) {
         this.senha = senha;
+    }
+
+
+    public TipoUsuario getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(TipoUsuario tipo) {
+        this.tipo = tipo;
     }
 }
