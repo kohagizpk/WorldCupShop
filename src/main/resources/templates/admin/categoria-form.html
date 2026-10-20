@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>
+            WorldCupShop
+        </title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link th:href="@{/css/estilo.css}" rel="stylesheet">
+    </head>
+    <body>
+        <div th:replace="~{fragmentos :: menu}">
+        </div>
+        <main class="container pb-5">
+            <h1 th:text="${categoria.id == null ? 'Criar categoria' : 'Editar categoria'}">
+                Categoria
+            </h1>
+            <p>
+                Cadastre uma categoria para organizar os produtos da loja.
+            </p>
+            <form class="formulario" method="post" th:action="@{/admin/categorias/salvar}" th:object="${categoria}">
+                <input type="hidden" th:field="*{id}">
+                <label>
+                    Nome
+                    <input class="form-control mb-3" th:field="*{nome}" required>
+                </label>
+                <label>
+                    Descrição
+                    <input class="form-control mb-3" th:field="*{descricao}">
+                </label>
+                <button class="btn btn-primary" type="submit">
+                    Salvar categoria
+                </button>
+                <a class="btn btn-outline-secondary" th:href="@{/admin/categorias}">
+                    Cancelar
+                </a>
+            </form>
+        </main>
+    </body>
+</html>

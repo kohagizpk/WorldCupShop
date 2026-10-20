@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <header th:fragment="menu" class="topo">
+            <div class="container topo-conteudo">
+                <a th:href="@{/produtos}" class="logo">
+                    WorldCupShop
+                </a>
+                <form th:action="@{/produtos}" method="get" class="busca-topo">
+                    <input name="nome" placeholder="Pesquisar produtos" aria-label="Buscar produtos">
+                    <button type="submit">
+                        ⌕
+                    </button>
+                </form>
+                <a th:href="@{/produtos}">
+                    Início
+                </a>
+                <a th:href="@{/admin/produtos}">
+                    Vender
+                </a>
+                <a th:href="@{/admin/categorias}">
+                    Categorias
+                </a>
+                <a th:href="@{/admin/selecoes}">
+                    Seleções
+                </a>
+                <a th:href="@{/carrinho}" aria-label="Carrinho">
+                    <svg class="icone-carrinho" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="9" cy="21" r="1"/>
+                        <circle cx="20" cy="21" r="1"/>
+                        <path d="M1 1h4l2.5 13h12l2.5-9H6"/>
+                    </svg>
+                </a>
+                <a th:href="@{/perfil}">
+                    Perfil
+                </a>
+                <a th:href="@{/login}">
+                    Entrar
+                </a>
+                <form th:action="@{/logout}" method="post">
+                    <button class="sair" type="submit">
+                        Sair
+                    </button>
+                </form>
+            </div>
+        </header>
+    </body>
+</html>

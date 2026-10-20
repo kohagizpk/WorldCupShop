@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <title>
+            WorldCupShop
+        </title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link th:href="@{/css/estilo.css}" rel="stylesheet">
+    </head>
+    <body>
+        <div th:replace="~{fragmentos :: menu}">
+        </div>
+        <main class="container pb-5">
+            <div class="faixa-azul">
+                <h2 class="h4 mb-1">
+                    WorldCupShop
+                </h2>
+                <span>
+                    Produtos para torcer pela sua seleção
+                </span>
+            </div>
+            <h1>
+                Encontre o que procura
+            </h1>
+            <form class="row g-2 mb-4" method="get" th:action="@{/produtos}">
+                <div class="col-md-5">
+                    <input class="form-control" name="nome" placeholder="Pesquisar por nome" th:value="${nome}">
+                </div>
+                <div class="col-md-3">
+                    <select class="form-select" name="categoria">
+                        <option value="">
+                            Todas as categorias
+                        </option>
+                        <option th:each="c:${categorias}" th:value="${c.id}" th:text="${c.nome}">
+                        </option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <select class="form-select" name="selecao">
+                        <option value="">
+                            Todas as seleções
+                        </option>
+                        <option th:each="s:${selecoes}" th:value="${s.id}" th:text="${s.nome}">
+                        </option>
+                    </select>
+                </div>
+                <div class="col-md-1">
+                    <button class="btn btn-primary w-100">
+                        Buscar
+                    </button>
+                </div>
+            </form>
+            <p th:if="${#lists.isEmpty(produtos)}">
+                Nenhum produto encontrado.
+            </p>
+            <div class="row g-3">
+                <div class="col-6 col-md-4 col-lg-3" th:each="p:${produtos}">
+                    <div class="card produto-card">
+                        <img th:if="${p.imagem != null and !p.imagem.isBlank()}" th:src="${p.imagem}" alt="Imagem do produto" class="imagem-produto">
+                        <div th:unless="${p.imagem != null and !p.imagem.isBlank()}" class="placeholder-imagem">
+                            ▧
+                        </div>
+                        <div class="card-body">
+                            <h5 th:text="${p.nome}">
+                                Produto
+                            </h5>
+                            <p class="text-muted small mb-2" th:text="${p.selecao.nome+' - '+p.categoria.nome}">
+                            </p>
+                            <p class="fw-bold" th:text="${'R$ '+p.preco}">
+                            </p>
+                            <a class="btn btn-primary btn-sm w-100" th:href="@{/produtos/{id}(id=${p.id})}">
+                                Ver produto
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </body>
+</html>

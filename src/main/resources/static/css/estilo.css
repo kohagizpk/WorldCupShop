@@ -1,0 +1,230 @@
+body {
+    background:#dbdbdb;
+    color:#151515;
+    font-family:Arial, sans-serif;
+    margin:0;
+}
+
+.topo {
+    background:#08089d;
+    color:#fff;
+    padding:13px 0;
+    margin-bottom:30px;
+}
+
+.topo-conteudo {
+    display:flex;
+    align-items:center;
+    gap:23px;
+    flex-wrap:wrap
+}
+
+.topo a {
+    color:#fff;
+    text-decoration:none;
+    font-size:14px
+}
+
+.topo .logo {
+    font-size:29px;
+    font-weight:800;
+    white-space:nowrap
+}
+
+.busca-topo {
+    margin-left:auto;
+    display:flex;
+    background:#f5f2ff;
+    border-radius:25px;
+    overflow:hidden;
+    max-width:310px;
+    flex:1 1 180px
+}
+
+.busca-topo input {
+    width:100%;
+    border:0;
+    background:transparent;
+    padding:8px 13px;
+    font-size:13px;
+    min-width:0;
+    outline:none
+}
+
+.busca-topo button {
+    border:0;
+    background:transparent;
+    padding:0 12px
+}
+
+.topo .sair {
+    border:1px solid #ccc;
+    color:#fff;
+    background:transparent;
+    border-radius:5px;
+    font-size:12px;
+    padding:5px 10px
+}
+
+main.container {
+    background:transparent;
+    min-height:65vh
+}
+
+h1 {
+    font-size:26px;
+    margin:10px 0 28px;
+    font-weight:600
+}
+
+.btn-primary,.btn-success {
+    background:#2425d6;
+    border-color:#2425d6
+}
+
+.btn-primary:hover,.btn-success:hover {
+    background:#08089d;
+    border-color:#08089d
+}
+
+.card,.painel-branco {
+    background:white;
+    border:1px solid #c4c4c4;
+    box-shadow:0 2px 2px #0002;
+    border-radius:7px
+}
+
+.produto-card {
+    height:100%;
+    overflow:hidden
+}
+
+.produto-card .card-body {
+    padding:12px
+}
+
+.produto-card h5 {
+    font-size:15px;
+    min-height:42px
+}
+
+.imagem-produto {
+    width:100%;
+    height:170px;
+    object-fit:contain;
+    background:white;
+    padding:12px
+}
+
+.imagem-detalhe {
+    width:100%;
+    max-height:420px;
+    object-fit:contain;
+    background:#fff;
+    border:1px solid #bbb;
+    border-radius:6px;
+    padding:25px
+}
+
+.placeholder-imagem {
+    height:170px;
+    display:grid;
+    place-content:center;
+    background:white;
+    color:#888;
+    font-size:46px
+}
+
+.detalhe-fundo {
+    padding-top:25px
+}
+
+.preco-grande {
+    font-size:30px;
+    font-weight:bold
+}
+
+.formulario {
+    max-width:760px;
+    padding:22px;
+    background:white;
+    border-radius:6px;
+    margin:0 auto 40px
+}
+
+.formulario label {
+    display:block;
+    margin-bottom:9px
+}
+
+.form-control,.form-select {
+    border-color:#cacaca
+}
+
+.form-control:focus,.form-select:focus {
+    border-color:#4546e8;
+    box-shadow:0 0 0 .15rem #4546e822
+}
+
+.carrinho-linha {
+    background:white;
+    border:1px solid #ccc;
+    border-radius:7px;
+    margin-bottom:15px;
+    padding:18px
+}
+
+.caixa-total {
+    background:white;
+    border:1px solid #ccc;
+    padding:18px;
+    border-radius:7px
+}
+
+.ofertas {
+    margin-bottom:35px
+}
+
+.faixa-azul {
+    background:#08089d;
+    color:white;
+    padding:18px;
+    border-radius:6px;
+    margin-bottom:25px
+}
+
+@media(max-width:767px) {
+    .topo .logo {
+        font-size:22px
+    }
+
+    .topo-conteudo {
+        gap:12px
+    }
+
+    .busca-topo {
+        order:2;
+        flex-basis:100%;
+        max-width:none
+    }
+
+    .imagem-produto {
+        height:150px
+    }
+
+}
+
+.icone-carrinho {
+    vertical-align:middle;
+    flex-shrink:0
+}
+
+.imagem-atual {
+    width:160px;
+    height:140px;
+    object-fit:contain;
+    background:white;
+    border:1px solid #ccc;
+    border-radius:5px;
+    padding:8px
+}
