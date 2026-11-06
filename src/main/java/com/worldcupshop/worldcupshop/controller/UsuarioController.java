@@ -1,13 +1,18 @@
 package com.worldcupshop.worldcupshop.controller;
 
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import com.worldcupshop.worldcupshop.model.Usuario;
 import com.worldcupshop.worldcupshop.service.CepService;
 import com.worldcupshop.worldcupshop.service.UsuarioService;
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class UsuarioController {
@@ -30,7 +35,6 @@ public class UsuarioController {
                          HttpServletRequest request) {
         Usuario usuario = usuarios.autenticar(username, password);
         if (usuario == null) return "redirect:/login?error";
-        // Cria uma sessão nova depois de fazer login.
         HttpSession antiga = request.getSession(false);
         if (antiga != null) antiga.invalidate();
         request.getSession(true).setAttribute("usuarioId", usuario.getId());
@@ -48,11 +52,11 @@ public class UsuarioController {
         if (cep != null && !cep.isBlank()) {
             try {
                 var dados = ceps.consultar(cep);
-                model.addAttribute("cep", dados.path("cep").asText());
-                model.addAttribute("endereco", dados.path("logradouro").asText());
-                model.addAttribute("bairro", dados.path("bairro").asText());
-                model.addAttribute("cidade", dados.path("localidade").asText());
-                model.addAttribute("uf", dados.path("uf").asText());
+                model.addAttribute("cep", dados.path("cep").asString(""));
+                model.addAttribute("endereco", dados.path("logradouro").asString(""));
+                model.addAttribute("bairro", dados.path("bairro").asString(""));
+                model.addAttribute("cidade", dados.path("localidade").asString(""));
+                model.addAttribute("uf", dados.path("uf").asString(""));
             } catch (IllegalArgumentException e) {
                 model.addAttribute("erro", e.getMessage());
                 model.addAttribute("cep", cep);

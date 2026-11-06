@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class CompraService {
@@ -53,7 +54,7 @@ public class CompraService {
     @Transactional
     public void adicionar(Usuario usuario, Long produtoId, Integer quantidade) {
         if (quantidade == null || quantidade < 1) throw new IllegalArgumentException("Quantidade inválida.");
-        Produto produto = produtos.findById(produtoId).orElseThrow();
+        Produto produto = produtos.findById(Objects.requireNonNull(produtoId, "ID do produto obrigatório")).orElseThrow();
         Carrinho carrinho = carrinho(usuario);
         ItemCarrinho item = itensCarrinho.findByCarrinhoIdAndProdutoId(carrinho.getId(), produtoId).orElse(null);
         if (item == null) {
@@ -70,7 +71,7 @@ public class CompraService {
 
     @Transactional
     public void alterar(Usuario usuario, Long itemId, Integer quantidade) {
-        ItemCarrinho item = itensCarrinho.findById(itemId).orElseThrow();
+        ItemCarrinho item = itensCarrinho.findById(Objects.requireNonNull(itemId, "ID do item obrigatório")).orElseThrow();
         if (!item.getCarrinho().getUsuario().getId().equals(usuario.getId())) {
             throw new IllegalArgumentException("Item inválido.");
         }
@@ -105,7 +106,7 @@ public class CompraService {
         pedidos.save(pedido);
 
         for (ItemCarrinho item : itens) {
-            Produto produto = produtos.findById(item.getProduto().getId()).orElseThrow();
+            Produto produto = produtos.findById(Objects.requireNonNull(item.getProduto().getId(), "ID do produto obrigatório")).orElseThrow();
             ItemPedido itemPedido = new ItemPedido();
             itemPedido.setPedido(pedido);
             itemPedido.setProduto(produto);

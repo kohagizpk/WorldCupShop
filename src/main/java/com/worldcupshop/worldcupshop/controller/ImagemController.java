@@ -4,6 +4,7 @@ import com.worldcupshop.worldcupshop.service.ImagemService;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Objects;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,9 @@ public class ImagemController {
         catch (IllegalArgumentException e) { return ResponseEntity.notFound().build(); }
         if (!Files.isRegularFile(arquivo)) return ResponseEntity.notFound().build();
         MediaType tipo = nome.endsWith(".png") ? MediaType.IMAGE_PNG
-                : nome.endsWith(".gif") ? MediaType.parseMediaType("image/gif") : MediaType.IMAGE_JPEG;
-        return ResponseEntity.ok().contentType(tipo).body(new FileSystemResource(arquivo));
+                : nome.endsWith(".gif") ? MediaType.parseMediaType("image/gif")
+                : nome.endsWith(".webp") ? MediaType.parseMediaType("image/webp") : MediaType.IMAGE_JPEG;
+        return ResponseEntity.ok().contentType(Objects.requireNonNull(tipo))
+                .body(new FileSystemResource(Objects.requireNonNull(arquivo)));
     }
 }

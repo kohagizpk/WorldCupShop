@@ -5,6 +5,7 @@ import com.worldcupshop.worldcupshop.repository.*;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class ProdutoService {
@@ -29,7 +30,7 @@ public class ProdutoService {
     }
 
     public Produto buscar(Long id) {
-        return produtos.findById(id).orElse(null);
+        return produtos.findById(Objects.requireNonNull(id, "ID do produto obrigatório")).orElse(null);
     }
 
     public Produto salvar(Produto produto) {
@@ -46,6 +47,6 @@ public class ProdutoService {
         if (itensPedido.existsByProdutoIdAndPedidoStatusNot(id, StatusPedido.CANCELADO)) {
             throw new IllegalArgumentException("Produto já utilizado em pedido.");
         }
-        produtos.deleteById(id);
+        produtos.deleteById(Objects.requireNonNull(id, "ID do produto obrigatório"));
     }
 }

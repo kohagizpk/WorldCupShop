@@ -10,3 +10,4 @@ public class WorldcupshopApplication {
         SpringApplication.run(WorldcupshopApplication.class, args);
     }
 }
+    

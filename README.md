@@ -1,5 +1,5 @@
 # WorldCupShop
-Projeto escolar em **Java 21, Spring Boot, PostgreSQL, Thymeleaf e Bootstrap**.
+Projeto escolar em **Java 21, Spring Boot 4.1.2, PostgreSQL, Thymeleaf e Bootstrap**.
 
 ## Como executar
 1. Instale Java 21, PostgreSQL e Maven (ou use `mvnw.cmd` no Windows).
@@ -30,7 +30,9 @@ Saia e entre novamente com a conta promovida. O acesso a `/admin` exige perfil A
 - `resources/templates`: HTML com Thymeleaf e Bootstrap.
 
 ## Testes
-A compilação Maven não pôde ser executada no ambiente de geração porque o download da distribuição do Maven falhou. Compile e execute localmente para validar.
+Execute `.\mvnw.cmd verify` no Windows (ou `./mvnw verify` no Linux). Os testes verificam a inicialização, as páginas públicas, o redirecionamento das páginas privadas para login e a resposta para imagens inexistentes. Eles utilizam o PostgreSQL configurado em `application.properties`; o banco precisa estar disponível.
+
+O Maven configura o agente do Mockito na inicialização da JVM de testes, evitando o carregamento dinâmico de agentes. O compartilhamento de classes (CDS) fica desativado apenas nessa JVM, por incompatibilidade com a instrumentação usada nos testes.
 
 
 ## Alterações visuais e CEP
@@ -41,12 +43,14 @@ Os dados do endereço são armazenados nos novos campos do usuário: `cep`, `end
 Na primeira inicialização, é criado `admin` com senha `123456` caso não exista esse nome no banco. A senha fica armazenada com BCrypt. **Troque essa senha antes de publicar o site na internet.**
 
 
-## PostgreSQL 9.5
+## PostgreSQL
 
-As oito entidades utilizam `GenerationType.SEQUENCE` em vez de `IDENTITY`, porque PostgreSQL 9.5 nao aceita `GENERATED ... AS IDENTITY`. O banco continua chamado `worldcupshop` e `ddl-auto=update` cria as tabelas e sequencias. **Atenção:** Hibernate 6.6 / Spring Boot 3.5 nao garantem suporte completo ao PostgreSQL 9.5. Essa mudanca corrige a sintaxe de IDs detectada nos logs, mas outros comandos podem precisar de ajustes.
+As oito entidades utilizam `GenerationType.SEQUENCE`. O banco continua chamado `worldcupshop` e `ddl-auto=update` cria as tabelas e sequências. A migração para Spring Boot 4 foi validada com PostgreSQL 18.6; PostgreSQL 9.5 não é uma versão suportada por esta configuração.
 
 ## Fotos dos produtos
-No painel administrativo, selecione um arquivo JPG, PNG ou GIF (ate 5 MB) ao cadastrar ou editar um produto. As imagens ficam em `uploads/produtos`, na pasta a partir da qual voce executa o Spring Boot. O banco guarda apenas o caminho da imagem no campo `imagem`. Nao apague a pasta `uploads` ao reiniciar o sistema ou atualizar o codigo. Sem JavaScript no frontend.
+No painel administrativo, selecione um arquivo JPG, PNG, GIF ou WebP (até 5 MB) ao cadastrar ou editar um produto. O servidor valida o conteúdo da imagem antes de salvar, usando o plugin TwelveMonkeys ImageIO para ler WebP. As imagens ficam em `uploads/produtos`, na pasta a partir da qual você executa o Spring Boot. O banco guarda apenas o caminho da imagem no campo `imagem`. Não apague a pasta `uploads` ao reiniciar o sistema ou atualizar o código. Sem JavaScript no frontend.
+
+Os links Vender, Categorias e Seleções aparecem no menu apenas para administradores. O acesso direto às rotas `/admin` também exige esse perfil.
 
 ### Cadastro de categorias
 

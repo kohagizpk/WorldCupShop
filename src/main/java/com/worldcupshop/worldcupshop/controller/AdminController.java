@@ -3,6 +3,8 @@ package com.worldcupshop.worldcupshop.controller;
 import com.worldcupshop.worldcupshop.model.*;
 import com.worldcupshop.worldcupshop.repository.PedidoRepository;
 import com.worldcupshop.worldcupshop.service.*;
+import java.io.IOException;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -68,6 +70,7 @@ public class AdminController {
             produto.setSelecao(selecoes.buscarPorId(selecaoId));
             if (produto.getId() != null) {
                 Produto antigo = produtos.buscar(produto.getId());
+                if (antigo == null) throw new IllegalArgumentException("Produto não encontrado.");
                 produto.setImagem(antigo.getImagem());
             } else {
                 produto.setImagem(null);
@@ -77,7 +80,7 @@ public class AdminController {
             }
             produtos.salvar(produto);
             return "redirect:/admin/produtos";
-        } catch (Exception e) {
+        } catch (IOException | IllegalArgumentException | DataAccessException e) {
             model.addAttribute("produto", produto);
             model.addAttribute("erro", e.getMessage());
             listarOpcoes(model);

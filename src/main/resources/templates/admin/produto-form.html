@@ -36,10 +36,10 @@
                 <input type="hidden" th:field="*{imagem}">
                 <label>
                     Imagem do produto (arquivo do computador)
-                    <input class="form-control mb-2" type="file" name="imagemArquivo" accept=".jpg,.jpeg,.png,.gif,image/jpeg,image/png,image/gif">
+                    <input class="form-control mb-2" type="file" name="imagemArquivo" accept=".jpg,.jpeg,.png,.gif,.webp,image/jpeg,image/png,image/gif,image/webp">
                 </label>
                 <p class="text-muted small">
-                    Formatos: JPG, PNG ou GIF (máximo 5 MB). Deixe vazio para manter a imagem atual.
+                    Formatos: JPG, PNG, GIF ou WebP (máximo 5 MB). Deixe vazio para manter a imagem atual.
                 </p>
                 <div class="mb-3" th:if="${produto.imagem != null and !produto.imagem.isBlank()}">
                     <span class="d-block small mb-1">

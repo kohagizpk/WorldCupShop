@@ -1,13 +1,15 @@
 package com.worldcupshop.worldcupshop.service;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.json.JsonMapper;
+import tools.jackson.core.JacksonException;
 import org.springframework.stereotype.Service;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
+import java.io.IOException;
 
 @Service
 public class CepService {
@@ -26,15 +28,16 @@ public class CepService {
             if (resposta.statusCode() != 200) {
                 throw new IllegalArgumentException("Não foi possível consultar o CEP.");
             }
-            JsonNode dados = new ObjectMapper().readTree(resposta.body());
+            JsonNode dados = JsonMapper.builder().build().readTree(resposta.body());
             if (dados.path("erro").asBoolean(false)) {
                 throw new IllegalArgumentException("CEP não encontrado.");
             }
             return dados;
-        } catch (IllegalArgumentException e) {
-            throw e;
-        } catch (Exception e) {
-            throw new IllegalArgumentException("Não foi possível consultar o ViaCEP.");
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new IllegalArgumentException("A consulta ao ViaCEP foi interrompida.", e);
+        } catch (IOException | JacksonException e) {
+            throw new IllegalArgumentException("Não foi possível consultar o ViaCEP.", e);
         }
     }
 }

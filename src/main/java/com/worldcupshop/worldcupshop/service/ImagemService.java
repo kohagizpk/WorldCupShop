@@ -1,6 +1,7 @@
 package com.worldcupshop.worldcupshop.service;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -22,16 +23,18 @@ public class ImagemService {
             throw new IllegalArgumentException("A imagem deve ter no máximo 5 MB.");
         }
         String extensao;
-        try (ImageInputStream entrada = ImageIO.createImageInputStream(arquivo.getInputStream())) {
+        try (InputStream conteudo = arquivo.getInputStream();
+             ImageInputStream entrada = ImageIO.createImageInputStream(conteudo)) {
             if (entrada == null) throw new IllegalArgumentException("Arquivo de imagem inválido.");
             Iterator<ImageReader> leitores = ImageIO.getImageReaders(entrada);
-            if (!leitores.hasNext()) throw new IllegalArgumentException("Use uma imagem JPG, PNG ou GIF.");
+            if (!leitores.hasNext()) throw new IllegalArgumentException("Use uma imagem JPG, PNG, GIF ou WebP.");
             ImageReader leitor = leitores.next();
             try {
                 leitor.setInput(entrada);
                 String formato = leitor.getFormatName().toLowerCase(java.util.Locale.ROOT);
-                if (!formato.equals("jpeg") && !formato.equals("jpg") && !formato.equals("png") && !formato.equals("gif")) {
-                    throw new IllegalArgumentException("Use uma imagem JPG, PNG ou GIF.");
+                if (!formato.equals("jpeg") && !formato.equals("jpg") && !formato.equals("png")
+                        && !formato.equals("gif") && !formato.equals("webp")) {
+                    throw new IllegalArgumentException("Use uma imagem JPG, PNG, GIF ou WebP.");
                 }
                 // Decodifica a imagem para garantir que o conteúdo é uma imagem válida.
                 if (leitor.read(0) == null) throw new IllegalArgumentException("Imagem inválida.");
@@ -42,12 +45,14 @@ public class ImagemService {
         }
         Files.createDirectories(pasta);
         String nome = UUID.randomUUID() + "." + extensao;
-        Files.copy(arquivo.getInputStream(), pasta.resolve(nome));
+        try (InputStream conteudo = arquivo.getInputStream()) {
+            Files.copy(conteudo, pasta.resolve(nome));
+        }
         return "/imagens/" + nome;
     }
 
     public Path localizar(String nome) {
-        if (!nome.matches("[0-9a-fA-F-]{36}\\.(jpg|png|gif)")) {
+        if (!nome.matches("[0-9a-fA-F-]{36}\\.(jpg|png|gif|webp)")) {
             throw new IllegalArgumentException("Nome de imagem inválido.");
         }
         return pasta.resolve(nome).normalize();

@@ -8,6 +8,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
+import org.jspecify.annotations.NonNull;
 import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
@@ -21,8 +22,8 @@ public class AcessoService extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
-                                    FilterChain chain) throws ServletException, IOException {
+    protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response,
+                                    @NonNull FilterChain chain) throws ServletException, IOException {
         String rota = request.getRequestURI();
         boolean privada = rota.startsWith("/admin") || rota.startsWith("/carrinho")
                 || rota.startsWith("/pedidos") || rota.equals("/perfil");
@@ -36,7 +37,7 @@ public class AcessoService extends OncePerRequestFilter {
             response.sendRedirect("/login");
             return;
         }
-        if (rota.startsWith("/admin") && usuario.getTipo() != TipoUsuario.ADMIN) {
+        if (rota.startsWith("/admin") && (usuario == null || usuario.getTipo() != TipoUsuario.ADMIN)) {
             response.sendError(403);
             return;
         }

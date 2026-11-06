@@ -2,30 +2,33 @@ package com.worldcupshop.worldcupshop.service;
 
 import com.worldcupshop.worldcupshop.model.Selecao;
 import com.worldcupshop.worldcupshop.repository.SelecaoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class SelecaoService {
     
-    @Autowired
-    private SelecaoRepository selecaoRepository;
+    private final SelecaoRepository selecaoRepository;
+
+    public SelecaoService(SelecaoRepository selecaoRepository) {
+        this.selecaoRepository = selecaoRepository;
+    }
 
     public List<Selecao> listarTodas() {
         return selecaoRepository.findAll();
     }
     
     public Selecao buscarPorId(Long id) {
-        return selecaoRepository.findById(id).orElse(null);
+        return selecaoRepository.findById(Objects.requireNonNull(id, "ID da seleção obrigatório")).orElse(null);
     }
     
     public Selecao salvar(Selecao selecao) {
-        return selecaoRepository.save(selecao);
+        return selecaoRepository.save(Objects.requireNonNull(selecao, "Seleção obrigatória"));
     }
     
     public void deletar(Long id) {
-        selecaoRepository.deleteById(id);
+        selecaoRepository.deleteById(Objects.requireNonNull(id, "ID da seleção obrigatório"));
     }
 }
